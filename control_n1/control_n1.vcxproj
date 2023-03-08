@@ -100,7 +100,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -128,16 +128,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="fileReader.h" />
-    <ClInclude Include="funcForValue.h" />
-    <ClInclude Include="loopedMenu.h" />
+    <ClInclude Include="sorting.h" />
+    <ClInclude Include="ui.h" />
     <ClInclude Include="Product.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="fileReader.cpp" />
-    <ClCompile Include="funcForValue.cpp" />
-    <ClCompile Include="loopedMenu.cpp" />
+    <ClCompile Include="sortingcpp.cpp" />
+    <ClCompile Include="ui.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Product.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="control_n1.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="1.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

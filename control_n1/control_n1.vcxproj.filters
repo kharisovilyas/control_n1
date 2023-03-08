@@ -16,18 +16,27 @@
     <Filter Include="Исходные файлы\object">
       <UniqueIdentifier>{89c7d5ce-9b32-4fd5-ab72-35ee2be9dde5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\ui">
+      <UniqueIdentifier>{4d70227d-9456-4f3c-91af-0c9354ee22c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\db">
+      <UniqueIdentifier>{05aa1de4-1aff-4d9f-acde-0acfc29dae00}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="loopedMenu.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="fileReader.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Product.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="funcForValue.h">
+    <ClInclude Include="ui.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="sorting.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -35,17 +44,27 @@
     <ClCompile Include="main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="fileReader.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="loopedMenu.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="Product.cpp">
       <Filter>Исходные файлы\object</Filter>
     </ClCompile>
-    <ClCompile Include="funcForValue.cpp">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="fileReader.cpp">
+      <Filter>Исходные файлы\ui</Filter>
     </ClCompile>
+    <ClCompile Include="ui.cpp">
+      <Filter>Исходные файлы\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="sortingcpp.cpp">
+      <Filter>Исходные файлы\db</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="control_n1.rc">
+      <Filter>Файлы ресурсов</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="1.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
   </ItemGroup>
 </Project>
