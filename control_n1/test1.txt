@@ -1,0 +1,2 @@
+milk;Nestle;3.5;10;100
+bread;Dobryanka;3;7;50

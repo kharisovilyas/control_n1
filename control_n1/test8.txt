@@ -1,0 +1,5 @@
+peach; Google; -9.2; -11; -111;
+bread; Dobryanka; -2; -7; -50
+breadik; Dobr; -2; -7; -50
+milk; Nestle; -3.5; -10; -100j
+

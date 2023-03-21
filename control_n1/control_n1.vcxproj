@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClInclude Include="fileReader.h" />
     <ClInclude Include="sorting.h" />
+    <ClInclude Include="test.h" />
     <ClInclude Include="ui.h" />
     <ClInclude Include="Product.h" />
     <ClInclude Include="resource.h" />
@@ -136,6 +137,7 @@
   <ItemGroup>
     <ClCompile Include="fileReader.cpp" />
     <ClCompile Include="sortingcpp.cpp" />
+    <ClCompile Include="test.cpp" />
     <ClCompile Include="ui.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Product.cpp" />

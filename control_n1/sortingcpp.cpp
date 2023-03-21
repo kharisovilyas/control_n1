@@ -18,60 +18,72 @@ static string byShelfLife = "inputSL";
 
 void printInputInfo(string way) {
 	if (way == byName) {
+		cout << "-----..........-----..........-----..........-----" << endl;
 		cout << "Введите наименование, чтобы получить список товаров с ним" << endl;
+		cout << "Ввод: ";
 	}
 	if (way == byPrice) {
+		cout << "-----..........-----..........-----..........-----" << endl;
 		cout << "Введите цену, чтобы получить список товаров, цена которых не превышает указанной" << endl;
 	}
 	if (way == byShelfLife) {
+		cout << "-----..........-----..........-----..........-----" << endl;
 		cout << "Введите срок хранения товара, чтобы получить спискок товаров, срок хранения которых больше заданного" << endl;
 	}
-	cout << "Ввод: ";
 }
 
-void printProduct(Product** products, int i) {
-	cout << "Наименование товара: " << (*products)[i].getName() << endl;
-	cout << "Производитель: " << (*products)[i].getManufacturer() << endl;
-	cout << "Цена товара: " << (*products)[i].getPrice() << endl;
-	cout << "Срок годности: " << (*products)[i].getShelfLife() << endl;
-	cout << "Количество товара: " << (*products)[i].getQuantity() << endl;
-	cout << "--------------------" << endl;
-}
 
-void sorting::sortByName(Product** products, int size) {
-	string nameSearch = "";
-	printInputInfo(byName);
-	cin >> nameSearch;
-	for (int i = 0; i < size; i++) {
+int sorting::sortByName(Product** products, Product** sortList, int size, string nameSearch, bool isTest) {
+	int i = 0;
+	int iter = 0;
+	*sortList = new Product[size];
+	if(!isTest){
+		printInputInfo(byName);
+		cin >> nameSearch;
+	}
+	for (; i < size; i++) {
 		if ((*products)[i].getName() == nameSearch) {
-			printProduct(products, i);
+			(*sortList)[iter] = (*products)[i];
+			iter++;
 		}
 	}
+	return iter;
 }
 
-void sorting::sortByNamePrice(Product** products, int size) {
+int sorting::sortByNamePrice(Product** products, Product** sortList, int size, string nameSearch, double priceSearch, bool isTest) {
 	ui mUI;
-	string nameSearch = "";
-	double priceSearch = 0;
-	printInputInfo(byName);
-	cin >> nameSearch;
-	printInputInfo(byPrice);
-	priceSearch = mUI.getDouble();
-	for (int i = 0; i < size; i++) {
+	int i = 0;
+	int iter = 0;
+	*sortList = new Product[size];
+	if(!isTest){
+		printInputInfo(byName);
+		cin >> nameSearch;
+		printInputInfo(byPrice);
+		priceSearch = mUI.getDouble();
+	}
+	for (; i < size; i++) {
 		if ((*products)[i].getName() == nameSearch && (*products)[i].getPrice() <= priceSearch) {
-			printProduct(products, i);
+			(*sortList)[iter] = (*products)[i];
+			iter++;
 		}
 	}
+	return iter;
 }
 
-void sorting::sortByShelfLife(Product** products, int size) {
+int sorting::sortByShelfLife(Product** products, Product** sortList, int size, int sh, bool isTest) {
 	ui mUI;
-	int sl = 0;
-	printInputInfo(byShelfLife);
-	sl = mUI.getInt();
-	for (int i = 0; i < size; i++) {
-		if ((*products)[i].getShelfLife() > sl) {
-			printProduct(products, i);
+	*sortList = new Product[size];
+	int i = 0;
+	int iter = 0;
+	if(!isTest){
+		printInputInfo(byShelfLife);
+		sh = mUI.getInt();
+	}
+	for ( ; i < size; i++) {
+		if ((*products)[i].getShelfLife() > sh) {
+			(*sortList)[iter] = (*products)[i];
+			iter++;
 		}
 	}
+	return iter;
 }

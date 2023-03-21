@@ -1,9 +1,9 @@
 #include <iostream>
+#include <filesystem>
 #include "fileReader.h"
 #include "ui.h"
 #include "product.h"
 #include <string>
-#include <stdlib.h>
 #include <fstream>
 #include <cstring>
 
@@ -14,24 +14,28 @@ using namespace UI;
 using namespace cproduct;
 
 static const string mInput = "input";
+static const string mOutput = "output";
 
 void printInform(string way) {
-	int howInput = 0;
 	if (way == mInput) {
-		cout << "Обратите внимание! Что данные об одном товаре должны быть записаны на одной строке через ; и без пробелов !" << endl << endl;
-		cout << "Обратите внимание! Что первая строка обязательно должна содержать количество товаров!" << endl << endl;
-		cout << "Если данные записаны иначе, программа укажет на ошибку, прекратит выполнение и попросит исправить исходный файл" << endl << endl;
-		cout << "Укажите название файла или путь к нему: ";
+		cout << "-----..........-----..........-----..........-----" << endl;
+		cout << "Обратите внимание! Что данные об одном товаре должны быть записаны на одной строке через ; и без пробелов !" << endl;
+		cout << "Если данные записаны иначе, программа укажет на ошибку, прекратит выполнение и попросит исправить исходный файл" << endl;
+		cout << "-----..........-----..........-----..........-----" << endl;
+		cout << "Загрузить из: ";
+	}
+	if (way == mOutput) {
+		cout << "Введите название файла в который вы хотите сохранить результат" << endl;
 	}
 }
 
 // Разбиваем строку на подстроки, используя символ ';' в качестве разделителя
-void filling(Product** products, const char* str_ptr, size_t i) {
+void fileReader::filling(Product** products, const char* str_ptr, int i) {
 	int iter = 0;
 	char* str_copy = new char[strlen(str_ptr) + 1];
 	strcpy_s(str_copy, strlen(str_ptr) + 1, str_ptr);
 	char* context = nullptr;
-	char* token = strtok_s(str_copy, "; ", &context);
+	char* token = strtok_s(str_copy, ";", &context);
 	while (token != nullptr) {
 		switch (iter) {
 		case 0:
@@ -41,69 +45,132 @@ void filling(Product** products, const char* str_ptr, size_t i) {
 			(*products)[i].setManufacturer(token);
 			break;
 		case 2:
-			(*products)[i].setPrice(stod(token));
+			if (strtod(token, nullptr) <= 0) {
+				cout << "Отрицательная или нулевая цена товара! Исправьте данные в файле! В " << i + 1 << " строке" << endl;
+			}
+			(*products)[i].setPrice(strtod(token, nullptr));
 			break;
 		case 3:
+			if (atoi(token) <= 0) {
+				cout << "Отрицательный или нулевой срок годности товара! Исправьте данные в файле! В " << i + 1 << " строке"<<endl;
+			}
 			(*products)[i].setShelfLife(atoi(token));
 			break;
 		case 4:
+			if (atoi(token) <= 0) {
+				cout << "Отрицательное или нулевое количество товара! Исправьте данные в файле! В " << i + 1 << " строке"<<endl;
+			}
 			(*products)[i].setQuantity(atoi(token));
 			break;
 		default:
-			cout << "С исходным файлом что то не так!" << endl;
+			cout << "Слишком много данных в одной строке! Данные будут проигнорированы" << endl;
 		}
-		token = strtok_s(nullptr, "; ", &context);
+		token = strtok_s(nullptr, ";", &context);
 		iter++;
 	}
 	delete[] str_copy;
 }
 
 
-void implFile(Product** products, int* size, bool* dataExist) {
-	string name = "";
+void fileReader::implFile(Product** products, int* size, string name) {
 	int i = 0;
-	string data = "";
-	cin >> name;
+	string data{};
 	ifstream input;
 	input.open(name);
 	if (input.is_open()) {
 		while (getline(input, data)) {
-			*size = atoi(data.c_str());
-			break;
+			*size += 1;
 		}
-		*dataExist = true;
+		input.close();
 	}else{
-		*dataExist = false;
-		cout << endl << "Ошибка чтения файла или выделения памяти!" << endl << endl;
+		cout << endl << "Файла с таким именем не существует!" << endl << endl;
+		throw runtime_error("error");
 	}
-	if (*size <= 0){
-		*dataExist = false;
-		cout << endl << "В файле указано отрицательное количество" << endl << endl;
-	}
-	if (*dataExist) {
+
+	input.open(name);
+	if (input.is_open()) {
 		*products = new Product[*size];
-	}
-	if (input.is_open() && *dataExist) {
-		*dataExist = false;
 		while (getline(input, data)) {
-			*dataExist = true;
-			filling(products, data.c_str(), i);
+			if (data.empty()) {
+				cout << "Ввод товара на " << i+1 << " строке не был произведен! Исправьте файл и введите данные заново" << endl;
+				*size -= 1;
+			}
+			else {
+				filling(products, data.c_str(), i);
+			}
 			i++;
 		}
+		input.close();
 	}
-	input.close();
+	else {
+		cout << endl << "Ошибка чтения файла или выделения памяти!" << endl << endl;
+		throw runtime_error("An error occurred");
+	}
 }
 
-int fileReader::readFile(Product** products, bool* dataExist) {
+void fileReader::removeNegative(Product** products, int* size) {
+	int newSize = 0;
+	for (int i = 0; i < *size; i++) {
+		if (!(*products)[i].isNegavive()) {
+			(*products)[newSize++] = (*products)[i];
+		}
+	}
+	// обнуляем плохие элементы
+	for (int i = newSize; i < *size; i++) {
+		(*products)[i] = Product();
+	}
+	*size = newSize;
+
+}
+
+int fileReader::readFile(Product** products, string name) {
 	int size = 0;
 	printInform(mInput);
-	implFile(products, &size, dataExist);
+	cin >> name;
+	implFile(products, &size, name);
+	removeNegative(products, &size);
 	return size;
-
 }
 
 
+void fileReader::fillFile(Product** products, int size) {
+	printInform(mOutput);
+	string filePath = "";
+	bool isDataSaved = false;
+	ui mUI;
+	do {
+		cout << "Сохранить в:";
+		getline(cin, filePath);
 
-void fileReader::fillFile(Product** products) {
-	
+		if (ifstream(filePath)) {
+			cout << "Файл уже существует." << endl;
+			cout << "[0] - Перезаписать существующий файл." << endl;
+			cout << "[1] - Повторить ввод." << endl;
+			int tryAnotherFile = mUI.getMenuVar(0, 1);
+			if (tryAnotherFile) {
+				continue;
+			}
+		}
+
+		ofstream myFile(filePath, ofstream::app);
+
+		error_code ec{};
+
+		if (!myFile) {
+			cout << "Запись запрещена. Повторите ввод." << endl;
+			myFile.close();
+			continue;
+		}
+
+		myFile.close();
+		myFile.open(filePath, ofstream::trunc);
+		myFile << "Наименование\tПроизводитель\tЦена\t\tСрок годности (в днях)\tКоличество\n";
+		for (int i = 0; i < size; i++) {
+			myFile << (*products)[i].getName() << "\t\t|\t" << (*products)[i].getManufacturer() << "\t\t|\t" << (*products)[i].getPrice()
+				<< "\t\t|\t" << (*products)[i].getShelfLife() << "\t\t|\t" << (*products)[i].getQuantity() << endl;
+		}
+		myFile.close();
+		cout << "Запись завершена." << endl;
+		isDataSaved = true;
+	} while (!isDataSaved);
 }

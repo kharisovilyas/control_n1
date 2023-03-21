@@ -1,6 +1,8 @@
 #include "Product.h"
 using namespace cproduct;
 
+
+
 string Product::getName() {
 	return Product::name;
 }
@@ -20,7 +22,7 @@ void Product::setManufacturer(string mManufacturer) {
 double Product::getPrice() {
 	return Product::price;
 }
-void Product::setPrice(int mPrice) {
+void Product::setPrice(double mPrice) {
 	Product::price = mPrice;
 }
 

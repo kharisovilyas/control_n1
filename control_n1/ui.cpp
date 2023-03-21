@@ -71,8 +71,9 @@ void filling(Product** products, int i) {
 	double price = 0;
 	int shelfLife = 0;
 	int quantity = 0;
+	cout << "-----..........-----..........-----..........-----" << endl;
 	cout << "Введите название продукта" << endl;
-	cout << "Ввод:";
+	cout << "Ввод: ";
 	cin >> name;
 	(*products)[i].setName(name);
 	cout << "Введите производителя продукта" << endl;
@@ -87,22 +88,43 @@ void filling(Product** products, int i) {
 	(*products)[i].setShelfLife(shelfLife);
 	cout << "Введите количество продуктов" << endl;
 	quantity = mUI.getInt();
+	(*products)[i].setQuantity(quantity);
 }
 
 
-int ui::readConsole(Product** products, bool* dataExist) {
+int ui::readConsole(Product** products) {
 	ui mUI;
 	int size = 0;
+	cout << "-----..........-----..........-----..........-----" << endl;
 	cout << "Введите количество продуктов" << endl;
-	cout << "Ввод: ";
 	size = mUI.getSize();
+	cout << "-----..........-----..........-----..........-----" << endl;
 	*products = new Product[size];
 	for (int i = 0; i < size; i++) {
-		cout << "------------" << endl;
-		cout << "Вы вводите товар №" << i << endl;
+		cout << "Вы вводите товар №" << i+1 << endl;
 		filling(products, i);
-		cout << endl << "------------" << endl;
+		cout << "-----..........-----..........-----..........-----" << endl;
 	}
-	*dataExist = true;
 	return size;
+}
+
+void printProduct(Product** products, int i) {
+	cout << "-----..........-----..........-----..........-----" << endl;
+	cout << "Наименование товара: " << (*products)[i].getName() << endl;
+	cout << "Производитель: " << (*products)[i].getManufacturer() << endl;
+	cout << "Цена товара: " << (*products)[i].getPrice() << endl;
+	cout << "Срок годности: " << (*products)[i].getShelfLife() << endl;
+	cout << "Количество товара: " << (*products)[i].getQuantity() << endl;
+}
+
+void ui::outConsole(Product** products, int size) {
+	if (size != 0 ) {
+		for (int i = 0; i < size; i++) {
+			printProduct(products, i);
+		}
+	}
+	else {
+		cout << "Попробуйте ввести данные снова" << endl <<endl;
+		throw runtime_error("error");
+	}
 }

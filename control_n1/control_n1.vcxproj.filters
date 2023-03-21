@@ -22,6 +22,9 @@
     <Filter Include="Исходные файлы\db">
       <UniqueIdentifier>{05aa1de4-1aff-4d9f-acde-0acfc29dae00}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\test">
+      <UniqueIdentifier>{4d988dab-ee3f-492d-a50f-208c28c43f79}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="fileReader.h">
@@ -37,6 +40,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="sorting.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="test.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -55,6 +61,9 @@
     </ClCompile>
     <ClCompile Include="sortingcpp.cpp">
       <Filter>Исходные файлы\db</Filter>
+    </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>Исходные файлы\test</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

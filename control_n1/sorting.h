@@ -2,8 +2,8 @@
 namespace sorted {
 	class sorting {
 	public:
-		void sortByName(Product**, int);
-		void sortByNamePrice(Product**, int);
-		void sortByShelfLife(Product**, int);
+		int sortByName(Product**, Product**, int, string, bool);
+		int sortByNamePrice(Product**, Product**, int, string, double, bool);
+		int sortByShelfLife(Product**, Product**, int, int, bool);
 	};
 }
