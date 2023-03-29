@@ -10,6 +10,8 @@ namespace UI {
 		int getMenuVar(int, int);
 		int getSize();
 		double getDouble();
+		int getIntField();
+		double getDoubleField();
 		int readConsole(Product**);
 		void outConsole(Product**, int);
 	};

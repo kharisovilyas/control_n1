@@ -59,7 +59,7 @@ int sorting::sortByNamePrice(Product** products, Product** sortList, int size, s
 		printInputInfo(byName);
 		cin >> nameSearch;
 		printInputInfo(byPrice);
-		priceSearch = mUI.getDouble();
+		priceSearch = mUI.getDoubleField();
 	}
 	for (; i < size; i++) {
 		if ((*products)[i].getName() == nameSearch && (*products)[i].getPrice() <= priceSearch) {
@@ -77,7 +77,7 @@ int sorting::sortByShelfLife(Product** products, Product** sortList, int size, i
 	int iter = 0;
 	if(!isTest){
 		printInputInfo(byShelfLife);
-		sh = mUI.getInt();
+		sh = mUI.getIntField();
 	}
 	for ( ; i < size; i++) {
 		if ((*products)[i].getShelfLife() > sh) {

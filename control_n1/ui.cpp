@@ -57,7 +57,7 @@ int ui::getSize() {
 	return in;
 }
 
-int getIntField() {
+int ui::getIntField() {
 	ui ui;
 	bool inputCorrect = false;
 	int in = 0;
@@ -73,7 +73,7 @@ int getIntField() {
 	return in;
 }
 
-int getDoubleField() {
+double ui::getDoubleField() {
 	ui ui;
 	bool inputCorrect = false;
 	double in = 0;
@@ -99,7 +99,7 @@ double ui::getDouble() {
 }
 
 void filling(Product** products, int i) {
-	ui mUI;
+	ui ui;
 	string name;
 	string manufacturer;
 	double price = 0;
@@ -115,13 +115,13 @@ void filling(Product** products, int i) {
 	cin >> manufacturer;
 	(*products)[i].setManufacturer(manufacturer);
 	cout << "Введите цену товара" << endl;
-	price = getDoubleField();
+	price = ui.getDoubleField();
 	(*products)[i].setPrice(price);
 	cout << "Введите срок годности товара" << endl;
-	shelfLife = getIntField();
+	shelfLife = ui.getIntField();
 	(*products)[i].setShelfLife(shelfLife);
 	cout << "Введите количество товаров заданного продукта" << endl;
-	quantity = getIntField();
+	quantity = ui.getIntField();
 	(*products)[i].setQuantity(quantity);
 }
 
