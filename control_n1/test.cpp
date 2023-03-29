@@ -14,6 +14,9 @@ using namespace std;
 const string testParsing = "parsing";
 const string testFileRead = "read";
 
+enum {
+    withoutEnd = 1, countTest = 6
+};
 
 template<typename T, typename U>
 
@@ -23,17 +26,20 @@ void printInvalid(T received, U expected, string message) {
 }
 
 
-void printCorrect(void (*function)(), string message) {
+bool printCorrect(void (*function)(), int count) {
     stringstream buffer{};
     streambuf* old_cout_buf = cout.rdbuf(buffer.rdbuf());
     (*function)();
     cout.rdbuf(old_cout_buf);
     string output = buffer.str();
     if (output.empty()) {
-        cout << endl << message << endl << endl;
+        return true;
     }
     else {
+        cout << "Не был пройден тест №" << count << endl;
+        cout << "Подробности об ошибке: " << endl;
         cout << output;
+        return false;
     }
 }
 
@@ -52,7 +58,7 @@ void checkingData(Product* products, int iter,
         printInvalid(products[0].getQuantity(), q, message);
 }
 
-string chekingOutput(Product** products, const char* str, int i) {
+string checkingOutput(Product** products, const char* str, int i) {
     fileReader mReader;
     stringstream buffer{};
     streambuf* old_cout_buf = cout.rdbuf(buffer.rdbuf());
@@ -196,12 +202,12 @@ void testParsingTXT() {
     //TODO: надо сделать проверку на вывод
 
     myOutput = outputNegativePrice4;
-    output = chekingOutput(&products, str4, 3);
+    output = checkingOutput(&products, str4, 3);
     if (output != myOutput) printInvalid(output, myOutput, message);
     checkingData(products, 3, "Juice", "Manufacturer", - 1.5, 1, 5);
 
     myOutput = outputNegativePrice5 + outputNegativeSH5 + outputNegativeQuantity5;
-    output = chekingOutput(&products, str5, 4);
+    output = checkingOutput(&products, str5, 4);
     if (output != myOutput) printInvalid(output, myOutput, message);
     checkingData(products, 4, "Salt", "Manufacturer", -0.49, 0, -2);
 
@@ -392,12 +398,25 @@ void testSortBySH() {
 
 }
 
+string selectEnding(int count) {
+    if (count == withoutEnd) return "";
+    else return "a";
+}
+
 void test::startTest() {
     creatingTestFiles();
-    printCorrect(&testImplFile, "Тесты на чтения файла пройдены");
-    printCorrect(&testParsingTXT, "Тесты на заполнения данных пройдены");
-    printCorrect(&testRemoveNegative, "Тесты на удаление товаров с отрицательными полями (цена, срок годности, количество) пройдены");
-    printCorrect(&testSortByName, "Тесты на выборку по имени пройдены");
-    printCorrect(&testSortByNamePrice, "Тесты на выборку по имени и цене пройдены");
-    printCorrect(&testSortBySH, "Тесты на выборку по сроку годности пройдены");
+    int count = 1;
+    if(
+        printCorrect(&testImplFile, count++)
+    && printCorrect(&testParsingTXT, count++)
+    && printCorrect(&testRemoveNegative, count++)
+    && printCorrect(&testSortByName, count++)
+    && printCorrect(&testSortByNamePrice, count++)
+    && printCorrect(&testSortBySH, count++)
+        ){
+        cout << endl <<"Все тесты были пройдены" << endl << endl;
+    }
+    else {
+        cout << "К глубокому сожалению не все тесты были пройдены" << endl;
+    }
 }

@@ -14,6 +14,21 @@ enum { task1 = 1, task2 = 2, task3 = 3, returnp = 4 };
 enum { exitp = 0, rfile = 1, rconsole = 2, unitTest = 3 };
 enum { fileOutput = 1, coutput = 2, outreturn = 3};
 
+void outGretting() {
+    cout << "Добро пожаловать в програмную реализацию Контрольной работы №1" << endl;
+    cout << "Лабораторную работу выполнил: Харисов Ильяс Ренатович, 424 группа, 21 вариант" << endl << endl;
+    cout << "Что нужно было сделать ?" << endl;
+    cout << "Контрольная работа № 1. Инкапсуляция.Классы и средства их построения в С++" << endl 
+         << "Первая контрольная работа предназначена для приобретения практического опыта в создании простейших классов с использованием языка"<<endl
+         <<"программирования С++.Необходимо разработать класс для указанной предметной области.Доступ к данным реализовать с помощью методов Set, Get,Show."<<endl
+         <<"При выполнении контрольной работы нельзя использовать контейнеры и алгоритмы библиотеки STL или аналогичных сторонних библиотек." << endl;
+    cout << "Товар: наименование, производитель, цена, срок хранения, количество."<<endl
+         << "Создать массив объектов.Реализовать возможность получения :" <<endl
+         <<"– списка товаров для заданного наименования,"<<endl
+         <<"– списка товаров для заданного наименования, цена которых не превышает указанной,"<<endl
+         <<"– списка товаров, срок хранения которых больше заданного." << endl;
+}
+
 void printInputWays() {
 
     cout << "-----..........-----..........-----..........-----" << endl;
@@ -22,7 +37,7 @@ void printInputWays() {
     cout << "[1] - если хотите взять данные из файла" << endl;
     cout << "[2] - если хотите ввести данные в консоли" << endl;
     cout << "[3] - если хотите запустить модульные тесты" << endl;
-    cout << "[0] - если хотите выйти! досвидания!" << endl << endl;
+    cout << "[0] - если хотите выйти! до свидания!" << endl << endl;
 }
 
 void printAction() {
@@ -69,6 +84,9 @@ void selectInput(int variant, Product** products, int* size) {
     test mTest;
     switch (variant)
     {
+    case exitp:
+        cout << "Вы вышли !" << endl;
+        break;
     case rfile:
         *size = mReader.readFile(products, {});
         break;
@@ -77,16 +95,12 @@ void selectInput(int variant, Product** products, int* size) {
         break;
     case unitTest: 
         mTest.startTest();
-    case exitp:
-        cout<<"Вы вышли !"<<endl;
-        break;
     }
 }
 
 void selectOutput(int variant, Product** sortList, int size) {
     ui mUI;
     fileReader mReader;
-    test mTest;
     switch (variant)
     {
     case fileOutput:
@@ -118,6 +132,7 @@ void launchMenu() {
             selectInput(variant, &products, &size);
         }
         catch (const exception& e) {
+            cout << e.what() << endl;
             continue;
         }
         if (variant == exitp) break;
@@ -130,6 +145,7 @@ void launchMenu() {
                 selectImplTask(variant, &products, &sortList, &size, &sizeSort);
             }
             catch (const exception& e) {
+                cout << e.what() << endl;
                 continue;
             }
             if (variant == returnp) break;
@@ -142,6 +158,7 @@ void launchMenu() {
                     selectOutput(variant, &sortList, sizeSort);
                 }
                 catch (const exception& e) {
+                    cout << e.what() << endl;
                     continue;
                 }
             } while (variant != returnp);
@@ -154,6 +171,7 @@ void launchMenu() {
 
 int main() {
 	setlocale(LC_CTYPE, "Russian");
+    outGretting();
 	launchMenu();
 	system("pause");
 }

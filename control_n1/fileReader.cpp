@@ -29,6 +29,12 @@ void printInform(string way) {
 	}
 }
 
+void outInform() {
+	cout << "-----..........-----..........-----..........-----" << endl;
+	cout << "Ваши данные были успешно введены из файла!" << endl;
+	cout << "Обратите внимание, что были удалены данные о товаре с отрицательными полями (цена, срок хранения, количество)" << endl;
+}
+
 // Разбиваем строку на подстроки, используя символ ';' в качестве разделителя
 void fileReader::filling(Product** products, const char* str_ptr, int i) {
 	int iter = 0;
@@ -129,6 +135,7 @@ int fileReader::readFile(Product** products, string name) {
 	cin >> name;
 	implFile(products, &size, name);
 	removeNegative(products, &size);
+	outInform();
 	return size;
 }
 
